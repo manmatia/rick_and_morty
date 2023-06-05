@@ -6,6 +6,8 @@ import Cards from './components/Cards.jsx';
 import { Navbar } from './components/Nav';
 import { DivChico } from './components/SearchBar.jsx';
 import axios from 'axios';
+
+
 import Form from './components/form';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import About from './components/Abaut/Abaut';
@@ -22,6 +24,7 @@ function App() {
       setAccess(false);
     }
 
+    
    // para darle acceso a la pagina
    const [access, setAccess] = useState(false);
    const EMAIL = 'manma@gmail.com';
@@ -39,27 +42,49 @@ function App() {
          alert("ingrese el usuario y contraseña correcto")
       }
    }
-
-
+  
+   const addCharacter = (character) => {
+      setCharacters((prevCharacters) => {
+        if (Array.isArray(prevCharacters)) {
+          return [...prevCharacters, character];
+        } else {
+          return [character];
+        }
+      });
+    };
 
    
    function onSearch(id) {
-      axios(`https://rickandmortyapi.com/api/character/${id}`).then(({ data }) => {
-         if (data.name && !characters.find(char=>char.id=== data.id)) {
+      if (id > 826) {
+        alert('¡No hay personajes con este ID!');
+        return;
+      }
+    
+      axios(`https://rickandmortyapi.com/api/character/${id}`)
+        .then(({ data }) => {
+          if (data.name && !characters.find(char => char.id === data.id)) {
             setCharacters((oldChars) => [...oldChars, data]);
-         }else if(characters.id>826){
-            alert('¡No hay personajes con este ID!');
-         } else {
+          } else {
             alert('¡Personaje repetido!');
-         }
-      });
-   }
+          }
+        })
+        .catch((error) => {
+          alert('¡No hay personaje con este ID!');
+        });
+    }
 
- const closeHandler=(id)=> {
-   setCharacters(characters.filter((char)=>char.id !== id))
- }  
-
-
+   //  const closeHandler = (id) => {
+   //    if (!Array.isArray(characters)) {
+   //      return;
+   //    }
+   //    setCharacters(characters.filter((char) => char.id !== id));
+   //  };
+   const closeHandler = (id) => {
+      if (characters.length === 0) {
+        return;
+      }
+      setCharacters(characters.filter((char) => char.id !== id));
+    };
 
 
 if (location.pathname === '/') {
@@ -83,11 +108,12 @@ if (location.pathname === '/') {
       
       <DivChico className='App'>
          
-         <Navbar onSearch={onSearch} onLogout={onLogout}/>
-         
+         <Navbar onSearch={onSearch} onLogout={onLogout} setCharacters={setCharacters} addCharacter={addCharacter} />
+    
          <Routes>
          <Route path='/' element={<Form login={login}/>} />
-         <Route path='/home' element={<Cards characters={characters} onClose={closeHandler} />} />
+         <Route path='/home' element={characters.length > 0 ? <Cards characters={characters} onClose={closeHandler} /> : null} />
+         {/* <Route path='/home' element={<Cards characters={characters} onClose={closeHandler} />} /> */}
          <Route path='/about' element={<About />} />
          <Route path='/detail/:id' element={<Detail/>}/>
         {/* el asterisco apunta a cualquier otra ruta q no coincida con las indicadas */}

@@ -1,36 +1,16 @@
 import Card from './Card';
+import { DivCard } from './Card';
+import style from "./Detail.module.css"
 
-export default function Cards({characters}) {
+
+export default function Cards(props) {
+   const { characters, onClose } = props;
+ 
    return (
-   <div>
-      {
-   characters.map((element) => {
-   return <Card key={element.id}
-   
-   name={element.name}
-   // status={element.status}
-   species={element.species}
-   gender={element.gender}
-   // origin={element.origin.name}
-   image={element.image}
-   onClose={() => window.alert('Emulamos que se cierra la card')}
-/>
-      
-   })};
-
-
-   </div>);
-}
-
-// return element[key],<Card/>  
-{/* <Cards characters={characters} />
-<Card
-   id={Rick.id}
-   name={Rick.name}
-   status={Rick.status}
-   species={Rick.species}
-   gender={Rick.gender}
-   origin={Rick.origin.name}
-   image={Rick.image}
-   onClose={() => window.alert('Emulamos que se cierra la card')}
-/> */}
+     <DivCard className={style.divvv} >
+       {characters.map((character) => (
+         <Card  key={character.id} character={character} onClose={onClose} />
+       ))}
+     </DivCard>
+   );
+ }

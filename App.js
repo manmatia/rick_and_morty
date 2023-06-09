@@ -1,11 +1,11 @@
 import './App.css';
-import { useState} from 'react';
+import { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import Cards from './components/Cards.jsx';
 import { Navbar } from './components/Nav';
 import { DivChico } from './components/SearchBar.jsx';
 import axios from 'axios';
+import Favorites from './components/favorites/favorites';
 
 
 import Form from './components/form';
@@ -73,12 +73,7 @@ function App() {
         });
     }
 
-   //  const closeHandler = (id) => {
-   //    if (!Array.isArray(characters)) {
-   //      return;
-   //    }
-   //    setCharacters(characters.filter((char) => char.id !== id));
-   //  };
+
    const closeHandler = (id) => {
       if (characters.length === 0) {
         return;
@@ -115,6 +110,7 @@ if (location.pathname === '/') {
          <Route path='/home' element={characters.length > 0 ? <Cards characters={characters} onClose={closeHandler} /> : null} />
          {/* <Route path='/home' element={<Cards characters={characters} onClose={closeHandler} />} /> */}
          <Route path='/about' element={<About />} />
+         <Route path='/favorites' element={<Favorites />} />
          <Route path='/detail/:id' element={<Detail/>}/>
         {/* el asterisco apunta a cualquier otra ruta q no coincida con las indicadas */}
          <Route path='*' element={"Error : callefalsa 123"}/>

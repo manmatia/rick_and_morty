@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { addFavorite, removeFavorite } from "../redux/actions";
 import style from "./Detail.module.css"
+import { useState, useEffect} from "react";
 
 export const DivCard = styled.div`
  
@@ -102,11 +105,48 @@ background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c)
 
 
 `
-export default function Card({character,onClose}) {
+function Card({character,onClose, addFavorite, removeFavorite, myFavorites,id}) {
 
+  const[closeBtn, setCloseBtn]=useState(true)
+
+const [isFav, setIsFav]=useState(false)
+
+useEffect(()=>{
+  if(!onClose){
+    setCloseBtn(false)
+  }
+})
+
+
+const handleFavorite=()=>{
+  if(isFav) {
+    setIsFav(false);
+  removeFavorite(character.id)
+}else{
+  setIsFav(true);
+  addFavorite({
+    id,character,onClose, addFavorite, removeFavorite
+  })
+}
+}
+useEffect(() => {
+  myFavorites.forEach((fav) => {
+     if (fav.id === character.id) {
+        setIsFav(true);
+     }
+  });
+}, [myFavorites]);
   return (
     <DivCorto className={style.image}>
-      <BotonCerrar  className={style.xcerrar} onClick={()=> onClose(character.id)}>X</BotonCerrar>
+      {
+   isFav ? (
+      <button onClick={()=>handleFavorite()}>❤️</button>
+   ) : (
+      <button onClick={()=>handleFavorite()}>🤍</button>
+   )
+}
+{closeBtn &&(
+      <BotonCerrar  className={style.xcerrar} onClick={()=> onClose(character.id)}>X</BotonCerrar> )}
       <Link to={`/detail/${character.id}`}><Texto>Name:{character.name}</Texto></Link>
       
       <Texto>Species:{character.species}</Texto>
@@ -116,7 +156,20 @@ export default function Card({character,onClose}) {
     </DivCorto>
   );
 }
+const mapDispatchToProps=(dispatch)=>{
+return{
+  addFavorite: (character=>dispatch(addFavorite(character))),
+  removeFavorite :(id =>dispatch(removeFavorite(id)))
+}
+}
+
+const mapStateToProps=(state)=>{
+  return {
+    myFavorites: state.myFavorites
+  }
+}
 
 
+export default connect(mapStateToProps, mapDispatchToProps)(Card)
 
 // NPM INSTALL REAC-ROUTER.DOM

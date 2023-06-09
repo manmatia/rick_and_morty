@@ -1,10 +1,6 @@
 {
 	"folders": [
 		{
-			"name": "rick_and_morty",
-			"path": "../../../../../../../rick_and_morty"
-		},
-		{
 			"name": "src",
 			"path": ".."
 		}

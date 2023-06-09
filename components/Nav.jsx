@@ -2,10 +2,8 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 import RandomCharacterButton from './botonRamdon';
-import {addCharacter} from "../App"
 
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import style from "./Detail.module.css";
 
 export class Navbar extends React.Component {
@@ -32,6 +30,9 @@ this.props.addCharacter(props)
         <br />
         <Link className={style.navBarr} to="/home">
           <button className={style.botonHome}>Home</button>
+        </Link>
+        <Link className={style.navBarr} to="/favorites">
+          <button className={style.botonHome}>Favorites</button>
         </Link>
         <br />
 

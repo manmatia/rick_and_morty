@@ -104,7 +104,7 @@ if (location.pathname === '/') {
       <DivChico className='App'>
          
          <Navbar onSearch={onSearch} onLogout={onLogout} setCharacters={setCharacters} addCharacter={addCharacter} />
-    
+          
          <Routes>
          <Route path='/' element={<Form login={login}/>} />
          <Route path='/home' element={characters.length > 0 ? <Cards characters={characters} onClose={closeHandler} /> : null} />

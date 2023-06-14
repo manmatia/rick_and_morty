@@ -21,20 +21,25 @@ this.props.addCharacter(props)
 
   render() {
     return (
-      <div className={style.divNavv}>
-        <SearchBar onSearch={this.props.onSearch} />
-        <RandomCharacterButton className={style.botonAbaut} onAddCharacter={this.props.addCharacter} />
+      <div>
+        <div  class="buttonContainer">
+        <RandomCharacterButton className={style.RandomCharacterButton} onAddCharacter={this.props.addCharacter} />
         <Link className={style.navBarr} to="/about">
           <button className={style.botonAbaut}>Abaut</button>
         </Link>
-        <br />
+        </div>
+      <div className={style.divNavv}>
+        <SearchBar onSearch={this.props.onSearch} />
+       
         <Link className={style.navBarr} to="/home">
           <button className={style.botonHome}>Home</button>
         </Link>
+       
         <Link className={style.navBarr} to="/favorites">
-          <button className={style.botonHome}>Favorites</button>
+     
+          <button className={style.botonFav}>Favorites</button>
         </Link>
-        <br />
+      
 
         {/* Agregamos el botón "Log out" */}
         <button  onClick={this.handleLogout} className={style.botonLogout}>
@@ -43,6 +48,7 @@ this.props.addCharacter(props)
 
         <hr />
         <h3 className={style.textoAnimado1}> Rick and morty </h3>
+      </div>
       </div>
     );
   }

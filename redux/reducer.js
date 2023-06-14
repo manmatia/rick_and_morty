@@ -1,53 +1,60 @@
 import { ADD_FAVORITE, REMOVE_FAVORITE, ORDER, FILTER, RESET } from "./actions";
 
-const initialState={
-    myFavorites: [],
-    allCharacters: []
-}
+const initialState = {
+  myFavorites: [],
+  allCharacters: [],
+  originalCharacters: [], // Nueva propiedad para almacenar la lista original
+};
 
-
-const rootReducer=(state=initialState,action )=>{
-switch (action.type) {
+const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
     case ADD_FAVORITE:
-        return{
-            ...state,
-            myFavorites:[...state.myFavorites,action.payload],
-            allCharacters: [...state.myFavorites,action.payload]
-        }  
-        case REMOVE_FAVORITE:
-            return{
-                ...state,
-                myFavorites: state.myFavorites.filter(characters=> characters.id !==Number(action.payload))
-            } 
+      return {
+        ...state,
+        myFavorites: [...state.myFavorites, action.payload],
+        allCharacters: [...state.myFavorites, action.payload]
+      };
+
+    case REMOVE_FAVORITE:
+      return {
+        ...state,
+        myFavorites: state.myFavorites.filter(
+          (characters) => characters.id !== Number(action.payload)
+        ),
+      };
+      
     case ORDER:
-    let ordenados;
-        if(action.payload === "Ascendente"){
-            ordenados=state.myFavorites.sort((a,b)=>a.id > b.id ? 1 : -1)
+      let ordered;
+      if (action.payload === "Ascendente") {
+        ordered = state.myFavorites.sort((a, b) => (a.id > b.id ? 1 : -1));
+      } else {
+        ordered = state.myFavorites.sort((a, b) => (b.id > a.id ? 1 : -1));
+      }
+      return {
+        ...state,
+        myFavorites: [...ordered],
+      };
 
-        }else{
-            ordenados=state.myFavorites.sort((a,b)=>b.id > a.id ? 1 : -1)
-        }
-        return{ 
+   
+    case FILTER:
+       
+          return {
             ...state,
-            myFavorites: [...ordenados]
-    }
+            myFavorites: state.allCharacters.filter((character)=>character.gender=== action.payload)
+          };
+       
 
-case FILTER:
-    return{
+    case RESET:
+      return {
         ...state,
-        myFavorites:state.myFavorites.filter((characters)=> characters.id !==Number(action.payload))
-    }
-case RESET:
-    return{
-        ...state,
-        myFavorites:[state.myFavorites]
-    }
+        myFavorites: state.originalCharacters,
+      };
 
     default:
-        return{...state};
- 
-}
-
-}
+      return {
+        ...state}
+         
+  }
+};
 
 export default rootReducer;

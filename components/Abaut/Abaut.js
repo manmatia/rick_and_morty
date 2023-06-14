@@ -1,10 +1,11 @@
 import React from 'react';
 import style from "../Detail.module.css"
-import { DivCorto3 } from '../Card';
+import { DivCorto} from '../Card';
 
 function Abaut() {
   return (
-    <DivCorto3 className={style.divvv}>
+    <DivCorto className={style.divvv}>
+      
       <h1>Matias Graneros</h1>
       <h2>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur, natus. Dignissimos
@@ -19,7 +20,7 @@ function Abaut() {
         consequuntur, quia ad, dolorem perferendis expedita, et ex earum quos dolores! Sint, unde
         cupiditate!
       </h3>
-    </DivCorto3>
+    </DivCorto>
   );
 }
 

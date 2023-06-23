@@ -14,6 +14,8 @@ import About from './components/Abaut/Abaut';
 import Detail from "./components/Detail"
 import style from "./components/Detail.module.css"
 
+// const EMAIL = 'manma@gmail.com';
+// const PASSWORD = '123456789E';
 
 function App() {
    const [characters,setCharacters]= useState([])
@@ -27,21 +29,31 @@ function App() {
     
    // para darle acceso a la pagina
    const [access, setAccess] = useState(false);
-   const EMAIL = 'manma@gmail.com';
-   const PASSWORD = '123456789E';
+   
+   function login(userData) {
+    const { email, password } = userData;
+    const URL = 'http://localhost:3001/rickandmorty/login/';
+    axios(URL + `?email=${email}&password=${password}`).then(({ data }) => {
+       const {access}=data
+       setAccess(data);
+       access && navigate('/home');
+    });
+ }
 
    useEffect(() => {
       !access && navigate('/');
-   }, [access]);
+   }, [access, navigate]);
    
-   function login(userData) {
-      if (userData.password === PASSWORD && userData.email === EMAIL) {
-         setAccess(true);
-         navigate('/home');
-      }else{
-         alert("ingrese el usuario y contraseña correcto")
-      }
-   }
+  //  function login(userData) {
+  //     if (userData.password === PASSWORD && userData.email === EMAIL) {
+  //        setAccess(true);
+  //        navigate('/home');
+  //     }else{
+  //        alert("ingrese el usuario y contraseña correcto")
+  //     }
+  //  }
+
+  
   
    const addCharacter = (character) => {
       setCharacters((prevCharacters) => {
